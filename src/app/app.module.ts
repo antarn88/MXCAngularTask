@@ -9,10 +9,18 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JwtInterceptorService } from './service/jwt-interceptor.service';
+import { LoginComponent } from './page/login/login.component';
+import { HomeComponent } from './page/home/home.component';
+import { HeaderComponent } from './widget/header/header.component';
+import { UserEditorComponent } from './page/user-editor/user-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    HomeComponent,
+    HeaderComponent,
+    UserEditorComponent,
   ],
   imports: [
     BrowserModule,
