@@ -5,5 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigService {
 
-  constructor() { }
+  apiUrl = 'http://dev-isf-ticketing-app.azurewebsites.net';
+  allUsersUrl = `${this.apiUrl}/api/v1/admin/user/`;
 }
