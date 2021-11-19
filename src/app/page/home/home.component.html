@@ -1,3 +1,18 @@
-<h1 class="text-center mt-5">Listázó oldal</h1>
-<p class="text-center">{{ (userList$ | async)?.resultsLength }} felhasználó</p>
-<pre>{{ (userList$ | async)?.results | json }}</pre>
+<h1 class="text-center my-5">Munkatársak</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Név</th>
+      <th>CreatedAt</th>
+      <th>Törlés</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let user of (userList$ | async)?.results">
+        <td>{{ user.lastName }} {{ user.firstName }}</td>
+        <td>{{ user.createdAt | date:'yyyy.MM.dd' }}</td>
+        <td><i class="fa fa-times"></i></td>
+      </tr>
+  </tbody>
+</table>

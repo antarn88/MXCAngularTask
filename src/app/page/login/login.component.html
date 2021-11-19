@@ -1,7 +1,7 @@
 <form #loginForm="ngForm" class="my-5" (ngSubmit)="onSubmit(loginForm)">
   <div class="mb-3">
     <label for="username" class="form-label">Felhasználónév</label>
-    <input type="text" class="form-control" id="username" name="userName" ngModel>
+    <input type="text" class="form-control" id="username" name="userName" autofocus ngModel>
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Jelszó</label>

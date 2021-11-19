@@ -12,8 +12,8 @@ export class AuthGuardService implements CanActivate {
     public router: Router,
   ) { }
 
-  canActivate(): boolean {
-    if (!this.auth.currentUserValue.userName) {
+  async canActivate(): Promise<boolean> {
+    if (!this.auth.currentUserValue.userName && !await this.auth.getLocalStorageData()) {
       this.router.navigateByUrl('login');
       return false;
     }
