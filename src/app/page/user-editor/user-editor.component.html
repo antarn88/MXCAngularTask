@@ -1,1 +1,4 @@
-<p>user-editor works!</p>
+<div class="wrapper" *ngIf="(user | async)?.userName">
+  <h1 class="text-center my-5">Adatok</h1>
+  <pre>{{ user | async | json }}</pre>
+</div>

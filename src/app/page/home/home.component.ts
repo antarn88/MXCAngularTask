@@ -20,4 +20,8 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.userList$.next(await lastValueFrom(this.userService.getAll()));
   }
+
+  deleteUser(userId: string): void {
+    console.log('Deleting request:', userId);
+  }
 }

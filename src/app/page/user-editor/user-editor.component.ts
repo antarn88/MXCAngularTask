@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-user-editor',
@@ -7,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserEditorComponent implements OnInit {
 
-  constructor() { }
+  user = new BehaviorSubject<User>(new User());
 
-  ngOnInit(): void {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    const { userId } = this.activatedRoute.snapshot.params;
+
+    if (userId !== '0') {
+      const user = await lastValueFrom(this.userService.getOne(userId));
+      this.user.next(user);
+    }
   }
 
 }

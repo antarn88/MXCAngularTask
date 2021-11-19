@@ -1,18 +1,22 @@
-<h1 class="text-center my-5">Munkatársak</h1>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Név</th>
-      <th>CreatedAt</th>
-      <th>Törlés</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let user of (userList$ | async)?.results">
-        <td>{{ user.lastName }} {{ user.firstName }}</td>
-        <td>{{ user.createdAt | date:'yyyy.MM.dd' }}</td>
-        <td><i class="fa fa-times"></i></td>
+<div class="wrapper" *ngIf="(userList$ | async)!.resultsLength > 0">
+  <h1 class="text-center my-5">Munkatársak</h1>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Név</th>
+        <th>CreatedAt</th>
+        <th>Törlés</th>
       </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of (userList$ | async)?.results">
+          <td>
+            <span [routerLink]="['user', user.id]">{{ user.lastName }} {{ user.firstName }}</span>
+          </td>
+          <td>{{ user.createdAt | date:'yyyy.MM.dd' }}</td>
+          <td><i class="fa fa-times" (click)="deleteUser(user.id || '')"></i></td>
+        </tr>
+    </tbody>
+  </table>
+</div>

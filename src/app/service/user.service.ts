@@ -18,8 +18,8 @@ export class UserService {
     return this.http.get<{ results: User[], resultsLength: number; }>(this.config.allUsersUrl);
   }
 
-  getOne(user: User): Observable<User> {
-    return this.http.get<User>(`${this.config.allUsersUrl}/${user.id}`);
+  getOne(userId: string): Observable<User> {
+    return this.http.get<User>(`${this.config.allUsersUrl}${userId}`);
   }
 
   create(user: User): Observable<''> {
@@ -27,10 +27,10 @@ export class UserService {
   }
 
   update(user: User): Observable<''> {
-    return this.http.put<''>(`${this.config.allUsersUrl}/${user.id}`, user);
+    return this.http.put<''>(`${this.config.allUsersUrl}${user.id}`, user);
   }
 
   delete(user: User): Observable<''> {
-    return this.http.delete<''>(`${this.config.allUsersUrl}/${user.id}`);
+    return this.http.delete<''>(`${this.config.allUsersUrl}${user.id}`);
   }
 }

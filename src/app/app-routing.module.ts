@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './page/home/home.component';
 import { LoginComponent } from './page/login/login.component';
+import { UserEditorComponent } from './page/user-editor/user-editor.component';
 import { AuthGuardService } from './service/auth-guard.service';
 
 const routes: Routes = [
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'user/:userId',
+    component: UserEditorComponent,
+    canActivate: [AuthGuardService],
   },
   {
     path: '**',
