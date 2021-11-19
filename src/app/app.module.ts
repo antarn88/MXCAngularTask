@@ -31,7 +31,7 @@ import { UserEditorComponent } from './page/user-editor/user-editor.component';
     ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent],
 })

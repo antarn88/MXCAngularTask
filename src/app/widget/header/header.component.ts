@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/model/user';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  user = new BehaviorSubject<User>(new User());
+
+  constructor(
+    public auth: AuthService,
+  ) { }
 
   ngOnInit(): void {
+    this.user.next(this.auth.currentUserValue);
   }
 
 }

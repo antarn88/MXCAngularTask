@@ -1,1 +1,9 @@
-<p>header works!</p>
+<span *ngIf="auth.currentUserValue.userName">
+  <div class="d-flex justify-content-between mt-5">
+    <div>LOGÓ</div>
+    <div class="d-flex flex-column">
+      <span><strong>{{ auth.currentUserValue.email }}</strong></span>
+      <a class="text-end" (click)="auth.logout()">Logout</a>
+    </div>
+  </div>
+</span>

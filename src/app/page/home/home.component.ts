@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { User } from 'src/app/model/user';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  userList$: BehaviorSubject<{ results: User[], resultsLength: number; }> = new BehaviorSubject
+    <{ results: User[], resultsLength: number; }>({ results: [], resultsLength: 0 });
 
-  ngOnInit(): void {
+  constructor(
+    private userService: UserService,
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    this.userList$.next(await lastValueFrom(this.userService.getAll()));
   }
-
 }
