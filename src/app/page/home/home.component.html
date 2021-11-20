@@ -1,5 +1,13 @@
-<div class="wrapper" *ngIf="(userList$ | async)!.resultsLength > 0">
-  <h1 class="text-center my-5">Munkatársak</h1>
+<div class="wrapper mb-5" *ngIf="(userList$ | async)!.resultsLength > 0">
+  
+  <div class="row">
+    <div class="col-12 d-flex justify-content-between align-content-center my-4">
+      <h2 class="text-uppercase"><i class="fa fa-user-o"></i> Munkatársak</h2>
+      <span class="text-center">
+        <button class="btn btn-primary" [routerLink]="'0'"><i class="fa fa-plus"></i>Új munkatárs felvétele</button>
+      </span>
+    </div>
+  </div>
   
   <table class="table table-striped">
     <thead>
@@ -12,7 +20,7 @@
     <tbody>
         <tr *ngFor="let user of (userList$ | async)?.results">
           <td>
-            <span [routerLink]="['user', user.id]">{{ user.lastName }} {{ user.firstName }}</span>
+            <span [routerLink]="[user.id]">{{ user.lastName }} {{ user.firstName }}</span>
           </td>
           <td>{{ user.createdAt | date:'yyyy.MM.dd' }}</td>
           <td><i class="fa fa-times" (click)="deleteUser(user.id || '')"></i></td>

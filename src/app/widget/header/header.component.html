@@ -1,9 +1,9 @@
 <span *ngIf="auth.currentUserValue.userName">
-  <div class="d-flex justify-content-between mt-5">
+  <div class="d-flex justify-content-between bg-dark bg-gradient text-light p-2">
     <div>LOGÓ</div>
     <div class="d-flex flex-column">
       <strong>{{ auth.currentUserValue.email }}</strong>
-      <a class="text-end text-black" (click)="auth.logout()">
+      <a class="text-end text-light" (click)="auth.logout()">
         <span>Logout</span>
       </a>
     </div>

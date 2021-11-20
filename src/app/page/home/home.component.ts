@@ -21,7 +21,13 @@ export class HomeComponent implements OnInit {
     this.userList$.next(await lastValueFrom(this.userService.getAll()));
   }
 
-  deleteUser(userId: string): void {
-    console.log('Deleting request:', userId);
+  async deleteUser(userId: string): Promise<void> {
+    try {
+      await lastValueFrom(this.userService.delete(userId));
+      this.userList$.next(await lastValueFrom(this.userService.getAll()));
+      console.log('User deleting was successful!');
+    } catch (err) {
+      console.error('Error during deleting user!');
+    }
   }
 }

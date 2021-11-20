@@ -34,7 +34,7 @@ export class AuthService {
     return this.currentUserSubject$.value;
   }
 
-  async login(loginData: { userName: string, password: string; }): Promise<void> {
+  async login(loginData: { userName: string, password: string; }): Promise<boolean> {
     try {
       const response = await lastValueFrom(
         this.http.post<{ access_token: string; token_type: string, expires_in: number; }>(this.config.loginUrl, loginData),
@@ -52,8 +52,10 @@ export class AuthService {
       this.currentUserSubject$.next(user);
       console.log('Successful login!');
       this.router.navigateByUrl('');
+      return true;
     } catch (err: any) {
       if (err.status === 400) console.error('Incorrect username or password!');
+      return false;
     }
   }
 

@@ -1,4 +1,82 @@
-<div class="wrapper" *ngIf="(user | async)?.userName">
-  <h1 class="text-center my-5">Adatok</h1>
-  <pre>{{ user | async | json }}</pre>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+  </symbol>
+</svg>
+
+<div class="wrapper" *ngIf="!loading">
+
+  <h1 class="text-center my-5" *ngIf="!notFoundError">Adatok</h1>
+  <div class="row">
+    <div class="col-6 offset-3">
+
+      <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="savingError">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+          <use xlink:href="#exclamation-triangle-fill" />
+        </svg>
+        <div>Hiba történt a felhasználó mentésekor!</div>
+      </div>
+
+
+      <form #userForm="ngForm" (submit)="saveUser(userForm)">
+
+        <!-- LastName -->
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Vezetéknév *</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName"
+            [class.is-invalid]="!userForm.controls['lastName']?.valid && !userForm.controls['lastName']?.pristine" required>
+          <div class="invalid-feedback">Hiányzó vezetéknév!</div>
+        </div>
+
+        <!-- firstName -->
+        <div class="mb-3">
+          <label for="firstName" class="form-label">Keresztnév *</label>
+          <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName"
+            [class.is-invalid]="!userForm.controls['firstName']?.valid && !userForm.controls['firstName']?.pristine" required>
+          <div class="invalid-feedback">Hiányzó keresztnév!</div>
+        </div>
+
+        <!-- UserName -->
+        <div class="mb-3">
+          <label for="userName" class="form-label">Felhasználónév *</label>
+          <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="user.userName"
+            [class.is-invalid]="!userForm.controls['userName']?.valid && !userForm.controls['userName']?.pristine" required>
+          <div class="invalid-feedback">Hiányzó felhasználónév!</div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Jelszó *</label>
+          <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
+            [class.is-invalid]="!userForm.controls['password']?.valid && !userForm.controls['password']?.pristine" required
+            minlength="2">
+          <div class="invalid-feedback">Hiányzó vagy gyenge jelszó!</div>
+        </div>
+
+        <!-- phoneNumber -->
+        <div class="mb-3">
+          <label for="phoneNumber" class="form-label">Telefonszám *</label>
+          <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber"
+            [class.is-invalid]="!userForm.controls['phoneNumber']?.valid && !userForm.controls['phoneNumber']?.pristine" required>
+          <div class="invalid-feedback">Hiányzó telefonszám!</div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email *</label>
+          <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email"
+            [class.is-invalid]="!userForm.controls['email']?.valid && !userForm.controls['email']?.pristine"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+          <div class="invalid-feedback">Érvénytelen vagy hiányzó email!</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-2" [disabled]="userForm.form.invalid">Mentés</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="notFoundError" class="mt-5">
+  <div class="alert alert-danger text-center" role="alert">A keresett munkatárs nem található vagy nem betölthető!</div>
 </div>

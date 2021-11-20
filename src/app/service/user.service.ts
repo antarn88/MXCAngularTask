@@ -30,7 +30,7 @@ export class UserService {
     return this.http.put<''>(`${this.config.allUsersUrl}${user.id}`, user);
   }
 
-  delete(user: User): Observable<''> {
-    return this.http.delete<''>(`${this.config.allUsersUrl}${user.id}`);
+  delete(userId: string): Observable<''> {
+    return this.http.delete<''>(`${this.config.allUsersUrl}${userId}`);
   }
 }

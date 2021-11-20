@@ -16,7 +16,7 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'user/:userId',
+    path: ':userId',
     component: UserEditorComponent,
     canActivate: [AuthGuardService],
   },
