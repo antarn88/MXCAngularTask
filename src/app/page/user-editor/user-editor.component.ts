@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-editor',
@@ -22,6 +23,7 @@ export class UserEditorComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private router: Router,
+    private toastr: ToastrService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -53,6 +55,7 @@ export class UserEditorComponent implements OnInit {
         this.user = userForm.value;
         await lastValueFrom(this.userService.create(this.user));
         this.loading = false;
+        this.toastr.success('A munkatárs sikeresen létrejött!', 'Siker!');
         console.log('User has been created!');
         this.router.navigateByUrl('');
         return true;
@@ -76,6 +79,7 @@ export class UserEditorComponent implements OnInit {
 
         await lastValueFrom(this.userService.update(this.user));
         this.loading = false;
+        this.toastr.success('A munkatárs sikeresen frissült!', 'Siker!');
         console.log('Updating user was successful!');
         this.router.navigateByUrl('');
         return true;

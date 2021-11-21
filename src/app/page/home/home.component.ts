@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private toastr: ToastrService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -25,8 +27,10 @@ export class HomeComponent implements OnInit {
     try {
       await lastValueFrom(this.userService.delete(userId));
       this.userList$.next(await lastValueFrom(this.userService.getAll()));
+      this.toastr.success('Sikeresen törölte a munkatársat!', 'Siker!');
       console.log('User deleting was successful!');
     } catch (err) {
+      this.toastr.error('Hiba történt a munkatárs törlése közben!', 'Hiba!');
       console.error('Error during deleting user!');
     }
   }
