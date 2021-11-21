@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class HomeComponent implements OnInit {
 
   currentUser: User = new User();
+  loading = true;
 
   userList$: BehaviorSubject<{ results: User[], resultsLength: number; }> = new BehaviorSubject
     <{ results: User[], resultsLength: number; }>({ results: [], resultsLength: 0 });
@@ -22,7 +23,12 @@ export class HomeComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.userList$.next(await lastValueFrom(this.userService.getAll()));
+    try {
+      this.userList$.next(await lastValueFrom(this.userService.getAll()));
+      this.loading = false;
+    } catch (err) {
+      console.error('Error during loading userlist!');
+    }
   }
 
   async deleteUser(confirmedDelete: boolean): Promise<void> {

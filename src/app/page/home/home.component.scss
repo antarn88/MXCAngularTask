@@ -1,4 +1,4 @@
-i, td span {
+.del-button, td span {
   cursor: pointer;
   user-select: none;
 }
@@ -9,4 +9,8 @@ td, th {
 
 i {
   margin-right: .5rem;
+}
+
+.loading {
+  margin-top: 10rem;
 }

@@ -11,6 +11,7 @@
   <div class="row">
     <div class="col-6 offset-3">
 
+      <!-- Error alert -->
       <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="savingError">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
           <use xlink:href="#exclamation-triangle-fill" />
@@ -71,12 +72,26 @@
           <div class="invalid-feedback">Érvénytelen vagy hiányzó email!</div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-2" [disabled]="userForm.form.invalid">Mentés</button>
+        <button type="submit" class="btn btn-primary w-100 mt-2" [disabled]="userForm.form.invalid"
+          *ngIf="!updating">Mentés</button>
+
+        <button class="btn btn-primary w-100 mt-2" type="submit" disabled *ngIf="updating">
+          <span class="spinner-border spinner-border-sm" role="status"></span> Mentés...
+        </button>
+
       </form>
     </div>
   </div>
 </div>
 
+<div class="wrapper" *ngIf="loading">
+  <div class="d-flex justify-content-center loading">
+    <div class="spinner-grow" style="width: 6rem; height: 6rem;" role="status"></div>
+  </div>
+  <p class="text-center mt-3">Betöltés...</p>
+</div>
+
+<!-- Error message when user is not found -->
 <div *ngIf="notFoundError" class="mt-5">
   <div class="alert alert-danger text-center" role="alert">A keresett munkatárs nem található vagy nem betölthető!</div>
 </div>

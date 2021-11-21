@@ -16,6 +16,7 @@ export class UserEditorComponent implements OnInit {
 
   user = new User();
   loading = true;
+  updating = false;
   notFoundError = false;
   savingError = false;
 
@@ -45,6 +46,7 @@ export class UserEditorComponent implements OnInit {
 
   async saveUser(userForm: NgForm): Promise<boolean> {
     this.savingError = false;
+    this.updating = true;
 
     if (!userForm.value.phoneNumber) {
       delete userForm.value.phoneNumber;
@@ -55,6 +57,7 @@ export class UserEditorComponent implements OnInit {
         this.user = userForm.value;
         await lastValueFrom(this.userService.create(this.user));
         this.loading = false;
+        this.updating = false;
         this.toastr.success('A munkatárs sikeresen létrejött!', 'Siker!');
         console.log('User has been created!');
         this.router.navigateByUrl('');
@@ -62,6 +65,7 @@ export class UserEditorComponent implements OnInit {
       }
     } catch (err) {
       this.savingError = true;
+      this.updating = false;
       this.user.id = '0';
       console.error('Error during creating user!');
       return false;
@@ -79,6 +83,7 @@ export class UserEditorComponent implements OnInit {
 
         await lastValueFrom(this.userService.update(this.user));
         this.loading = false;
+        this.updating = false;
         this.toastr.success('A munkatárs sikeresen frissült!', 'Siker!');
         console.log('Updating user was successful!');
         this.router.navigateByUrl('');
@@ -86,6 +91,7 @@ export class UserEditorComponent implements OnInit {
       }
     } catch (err) {
       this.savingError = true;
+      this.updating = false;
       console.error('Error during updating user!');
       return false;
     }
