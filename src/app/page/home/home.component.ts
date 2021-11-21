@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HomeComponent implements OnInit {
 
+  currentUser: User = new User();
+
   userList$: BehaviorSubject<{ results: User[], resultsLength: number; }> = new BehaviorSubject
     <{ results: User[], resultsLength: number; }>({ results: [], resultsLength: 0 });
 
@@ -23,15 +25,21 @@ export class HomeComponent implements OnInit {
     this.userList$.next(await lastValueFrom(this.userService.getAll()));
   }
 
-  async deleteUser(userId: string): Promise<void> {
-    try {
-      await lastValueFrom(this.userService.delete(userId));
-      this.userList$.next(await lastValueFrom(this.userService.getAll()));
-      this.toastr.success('Sikeresen törölte a munkatársat!', 'Siker!');
-      console.log('User deleting was successful!');
-    } catch (err) {
-      this.toastr.error('Hiba történt a munkatárs törlése közben!', 'Hiba!');
-      console.error('Error during deleting user!');
+  async deleteUser(confirmedDelete: boolean): Promise<void> {
+    if (confirmedDelete) {
+      try {
+        await lastValueFrom(this.userService.delete(this.currentUser.id || ''));
+        this.userList$.next(await lastValueFrom(this.userService.getAll()));
+        this.toastr.success('Sikeresen törölte a munkatársat!', 'Siker!');
+        console.log('User deleting was successful!');
+      } catch (err) {
+        this.toastr.error('Hiba történt a munkatárs törlése közben!', 'Hiba!');
+        console.error('Error during deleting user!');
+      }
     }
+  }
+
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
   }
 }
