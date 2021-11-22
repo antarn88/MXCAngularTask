@@ -1,12 +1,13 @@
 <span *ngIf="auth.currentUserValue.userName">
-  <div class="d-flex justify-content-between bg-light p-2">
+  <div class="d-flex justify-content-between bg-light p-2 sticky-top">
     <div>
-      <a [routerLink]="''"><img src="/assets/img/logo_transparent_background.png" alt="logo" width="90rem"></a>
+      <a [routerLink]="''"><img src="/assets/img/logo_transparent_background.png" alt="logo" width="85px"></a>
     </div>
     <div class="d-flex flex-column">
       <strong>{{ auth.currentUserValue.email }}</strong>
-      <a class="text-end text-dark" (click)="auth.logout()">
-        <span class="logout-label">Logout</span>
+      <a class="text-end text-dark">
+        <span class="logout-label" (click)="logout()" *ngIf="!loggingOut">Logout</span>
+        <span class="logout-label" *ngIf="loggingOut">Logging out...</span>
       </a>
     </div>
   </div>

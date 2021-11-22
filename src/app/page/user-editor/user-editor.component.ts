@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -19,6 +21,7 @@ export class UserEditorComponent implements OnInit {
   updating = false;
   notFoundError = false;
   savingError = false;
+  errorMessage = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +37,7 @@ export class UserEditorComponent implements OnInit {
       try {
         this.user = await lastValueFrom(this.userService.getOne(userId));
         this.loading = false;
+        console.log('User has been loaded!');
       } catch (err) {
         this.notFoundError = true;
         console.error('Error during loading user!');
@@ -63,11 +67,12 @@ export class UserEditorComponent implements OnInit {
         this.router.navigateByUrl('');
         return true;
       }
-    } catch (err) {
+    } catch (err: any) {
+      this.errorMessage = err.error.messages[0].label;
       this.savingError = true;
       this.updating = false;
       this.user.id = '0';
-      console.error('Error during creating user!');
+      console.error('Error during creating user! Details:', this.errorMessage);
       return false;
     }
 

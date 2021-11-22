@@ -1,8 +1,9 @@
-<div class="wrapper mb-5" *ngIf="(userList$ | async)!.resultsLength > 0">
+<div class="wrapper mb-5 p-3" *ngIf="(userList$ | async)!.resultsLength > 0">
 
   <div class="row">
-    <div class="col-12 d-flex justify-content-between align-content-center my-4">
-      <h2 class="text-uppercase"><i class="fa fa-user-o"></i> Munkatársak</h2>
+    <div class="col-12 d-flex justify-content-xxl-between justify-content-xl-between justify-content-lg-between
+       justify-content-md-around justify-content-sm-around justify-content-center align-content-center flex-wrap my-4 top-bar">
+      <h2 class="text-uppercase mb-3"><i class="fa fa-user-o"></i> Munkatársak</h2>
       <span class="text-center">
         <button class="btn btn-primary" [routerLink]="'0'"><i class="fa fa-plus"></i>Új munkatárs felvétele</button>
       </span>
@@ -32,9 +33,9 @@
 
 <div class="wrapper" *ngIf="loading">
   <div class="d-flex justify-content-center loading">
-    <div class="spinner-grow" style="width: 6rem; height: 6rem;" role="status"></div>
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
   </div>
-  <p class="text-center mt-3">Betöltés...</p>
+  <p class="text-center mt-3">Munkatársak betöltése...</p>
 </div>
 
 <app-modal (confirmedClick)="deleteUser($event)"></app-modal>

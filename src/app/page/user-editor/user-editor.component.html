@@ -7,88 +7,114 @@
 
 <div class="wrapper" *ngIf="!loading">
 
-  <h1 class="text-center my-5" *ngIf="!notFoundError">Adatok</h1>
   <div class="row">
-    <div class="col-6 offset-3">
+    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-8 col-sm-10 offset-xxl-3 offset-xl-3 offset-lg-3 offset-md-2 offset-sm-1">
 
-      <!-- Error alert -->
-      <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="savingError">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
-          <use xlink:href="#exclamation-triangle-fill" />
-        </svg>
-        <div>Hiba történt a felhasználó mentésekor!</div>
+      <!-- Title bar -->
+      <div class="title-bar">
+        <i class="fa fa-address-card-o fa-2x title-icon mt-1 mt-sm-1 mt-md-2 mt-lg-2"></i>
+        <h1 class="text-uppercase" *ngIf="!notFoundError">Adatok</h1>
       </div>
 
+      <!-- Form container -->
+      <div class="form-container p-3">
 
-      <form #userForm="ngForm" (submit)="saveUser(userForm)">
-
-        <!-- LastName -->
-        <div class="mb-3">
-          <label for="lastName" class="form-label">Vezetéknév *</label>
-          <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName"
-            [class.is-invalid]="!userForm.controls['lastName']?.valid && !userForm.controls['lastName']?.pristine" required>
-          <div class="invalid-feedback">Hiányzó vezetéknév!</div>
+        <!-- Error alert -->
+        <div class="alert alert-danger d-flex align-items-center justify-content-center flex-column" role="alert"
+          *ngIf="savingError">
+          <div class="text-center">
+            <svg class="bi flex-shrink-0 me-2 d-inline" width="24" height="24" role="img" aria-label="Danger:">
+              <use xlink:href="#exclamation-triangle-fill" />
+            </svg>
+            <span>Hiba történt a felhasználó mentésekor!</span>
+          </div>
+          <span>Részletek:</span>
+          <strong>{{ errorMessage }}</strong>
         </div>
 
-        <!-- firstName -->
-        <div class="mb-3">
-          <label for="firstName" class="form-label">Keresztnév *</label>
-          <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName"
-            [class.is-invalid]="!userForm.controls['firstName']?.valid && !userForm.controls['firstName']?.pristine" required>
-          <div class="invalid-feedback">Hiányzó keresztnév!</div>
-        </div>
+        <form #userForm="ngForm" (submit)="saveUser(userForm)">
 
-        <!-- UserName -->
-        <div class="mb-3">
-          <label for="userName" class="form-label">Felhasználónév *</label>
-          <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="user.userName"
-            [class.is-invalid]="!userForm.controls['userName']?.valid && !userForm.controls['userName']?.pristine" required>
-          <div class="invalid-feedback">Hiányzó felhasználónév!</div>
-        </div>
+          <!-- LastName -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName"
+              [class.is-valid]="userForm.controls['lastName']?.valid && userForm.controls['lastName']?.touched"
+              [class.is-invalid]="userForm.controls['lastName']?.invalid && userForm.controls['lastName']?.touched"
+              placeholder="Vezetéknév *" required>
+            <label for="lastName">Vezetéknév *</label>
+            <div class="invalid-feedback">Hiányzó vezetéknév!</div>
+          </div>
 
-        <!-- Password -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Jelszó *</label>
-          <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
-            [class.is-invalid]="!userForm.controls['password']?.valid && !userForm.controls['password']?.pristine" required
-            minlength="2">
-          <div class="invalid-feedback">Hiányzó vagy gyenge jelszó!</div>
-        </div>
+          <!-- firstName -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName"
+              [class.is-valid]="userForm.controls['firstName']?.valid && userForm.controls['firstName']?.touched"
+              [class.is-invalid]="userForm.controls['firstName']?.invalid && userForm.controls['firstName']?.touched"
+              placeholder="Keresztnév *" required>
+            <label for="firstName">Keresztnév *</label>
+            <div class="invalid-feedback">Hiányzó keresztnév!</div>
+          </div>
 
-        <!-- phoneNumber -->
-        <div class="mb-3">
-          <label for="phoneNumber" class="form-label">Telefonszám *</label>
-          <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber"
-            [class.is-invalid]="!userForm.controls['phoneNumber']?.valid && !userForm.controls['phoneNumber']?.pristine" required>
-          <div class="invalid-feedback">Hiányzó telefonszám!</div>
-        </div>
+          <!-- UserName -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="user.userName"
+              [class.is-valid]="userForm.controls['userName']?.valid && userForm.controls['userName']?.touched"
+              [class.is-invalid]="userForm.controls['userName']?.invalid && userForm.controls['userName']?.touched"
+              placeholder="Felhasználónév *" required>
+            <label for="userName">Felhasználónév *</label>
+            <div class="invalid-feedback">Hiányzó felhasználónév!</div>
+          </div>
 
-        <!-- Email -->
-        <div class="mb-3">
-          <label for="email" class="form-label">Email *</label>
-          <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email"
-            [class.is-invalid]="!userForm.controls['email']?.valid && !userForm.controls['email']?.pristine"
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-          <div class="invalid-feedback">Érvénytelen vagy hiányzó email!</div>
-        </div>
+          <!-- Password -->
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password"
+              [class.is-valid]="userForm.controls['password']?.valid && userForm.controls['password']?.touched"
+              [class.is-invalid]="userForm.controls['password']?.invalid && userForm.controls['password']?.touched"
+              placeholder="Jelszó *" pattern="^(?=[^a-zíáéüűúöőó]*[a-zíáéüűúöőó])(?=[^A-ZÍÁÉÜŰÚÖŐÓ]*[A-ZÍÁÉÜŰÚÖŐÓ]).{4,}$"
+              required>
+            <label for="password">Jelszó *</label>
+            <div class="invalid-feedback">Hiányzó vagy gyenge jelszó!</div>
+          </div>
 
-        <button type="submit" class="btn btn-primary w-100 mt-2" [disabled]="userForm.form.invalid"
-          *ngIf="!updating">Mentés</button>
+          <!-- phoneNumber -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber"
+              [class.is-valid]="userForm.controls['phoneNumber']?.valid && userForm.controls['phoneNumber']?.touched"
+              [class.is-invalid]="userForm.controls['phoneNumber']?.invalid && userForm.controls['phoneNumber']?.touched"
+              placeholder="Telefonszám *" required>
+            <label for="phoneNumber">Telefonszám *</label>
+            <div class="invalid-feedback">Hiányzó telefonszám!</div>
+          </div>
 
-        <button class="btn btn-primary w-100 mt-2" type="submit" disabled *ngIf="updating">
-          <span class="spinner-border spinner-border-sm" role="status"></span> Mentés...
-        </button>
+          <!-- Email -->
+          <div class="form-floating mb-3">
+            <input type="email" #email class="form-control" id="email" name="email" [(ngModel)]="user.email"
+              [class.is-valid]="userForm.controls['email']?.valid && userForm.controls['email']?.touched"
+              [class.is-invalid]="userForm.controls['email']?.invalid && userForm.controls['email']?.touched"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email *" required>
+            <label for="email">Email *</label>
+            <div class="invalid-feedback">Érvénytelen vagy hiányzó email!</div>
+          </div>
 
-      </form>
+          <button type="submit" class="btn btn-primary w-100 mt-2" [disabled]="userForm.form.invalid"
+            *ngIf="!updating">Mentés</button>
+
+          <button class="btn btn-primary w-100 mt-2" type="submit" disabled *ngIf="updating">
+            <span class="fa fa-refresh fa-spin"></span> Mentés...
+          </button>
+
+        </form>
+      </div>
+
     </div>
   </div>
 </div>
 
-<div class="wrapper" *ngIf="loading">
+<!-- Loading screen -->
+<div class="wrapper" *ngIf="loading && !notFoundError">
   <div class="d-flex justify-content-center loading">
-    <div class="spinner-grow" style="width: 6rem; height: 6rem;" role="status"></div>
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
   </div>
-  <p class="text-center mt-3">Betöltés...</p>
+  <p class="text-center mt-3">Munkatárs betöltése...</p>
 </div>
 
 <!-- Error message when user is not found -->

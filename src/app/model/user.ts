@@ -2,7 +2,7 @@ export class User {
   id? = '';
   firstName = '';
   lastName = '';
-  email = '';
+  email? = '';
   userName = '';
   phoneNumber? = '';
   createdAt? = '';

@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
 export class LoginComponent implements OnInit {
 
   hasError = false;
+  logging = false;
 
   constructor(
     private authService: AuthService,
@@ -19,8 +20,12 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(loginForm: NgForm): Promise<void> {
+    this.logging = true;
     if (!await this.authService.login(loginForm.value)) {
       this.hasError = true;
+      this.logging = false;
+    } else {
+      this.logging = false;
     }
   }
 

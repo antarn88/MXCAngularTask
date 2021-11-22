@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/service/auth.service';
 export class HeaderComponent implements OnInit {
 
   user = new BehaviorSubject<User>(new User());
+  loggingOut = false;
 
   constructor(
     public auth: AuthService,
@@ -18,6 +19,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.user.next(this.auth.currentUserValue);
+  }
+
+  async logout(): Promise<void> {
+    this.loggingOut = true;
+    await this.auth.logout();
+    this.loggingOut = false;
   }
 
 }

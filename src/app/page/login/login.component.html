@@ -9,10 +9,10 @@
   <div class="col-6 offset-3 mb-3 mt-2">
     <h3 class="text-uppercase"><i class="fa fa-sign-in"></i> Bejelentkezés</h3>
   </div>
-  
-  <div class="col-6 offset-3 p-4">
-    
-    <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="hasError">
+
+  <div class="col-xxl-6 offset-xxl-3 col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-8 offset-sm-2 p-4">
+
+    <div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert" *ngIf="hasError">
       <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
         <use xlink:href="#exclamation-triangle-fill" />
       </svg>
@@ -20,15 +20,25 @@
     </div>
 
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <div class="mb-3">
-        <label for="username" class="form-label">Felhasználónév *</label>
-        <input type="text" class="form-control" id="username" name="userName" autofocus required ngModel>
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="username" name="userName"
+          [class.is-invalid]="loginForm.controls['userName']?.invalid && loginForm.controls['userName']?.touched"
+          placeholder="Felhasználónév *" autofocus required ngModel>
+        <label for="username">Felhasználónév *</label>
       </div>
-      <div class="mb-4">
-        <label for="password" class="form-label">Jelszó *</label>
-        <input type="password" class="form-control" id="password" name="password" required ngModel>
+      <div class="form-floating mb-4">
+        <input type="password" class="form-control" id="password" name="password"
+          [class.is-invalid]="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched"
+          placeholder="Jelszó *" required ngModel>
+        <label for="password">Jelszó *</label>
       </div>
-      <button type="submit" class="btn btn-primary w-100">Bejelentkezés</button>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.form.invalid"
+        *ngIf="!logging">Bejelentkezés</button>
+
+      <button class="btn btn-primary w-100" type="submit" disabled *ngIf="logging">
+        <span class="fa fa-spinner fa-pulse"></span> Bejelentkezés...
+      </button>
+
     </form>
   </div>
 </div>
