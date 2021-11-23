@@ -1,4 +1,4 @@
-<div class="wrapper mb-5 p-3" *ngIf="(userList$ | async)!.resultsLength > 0">
+<div class="wrapper mb-5 p-3" *ngIf="(userList$ | async)!.resultsLength > 0 && !loading">
 
   <div class="row">
     <div class="col-12 d-flex justify-content-xxl-between justify-content-xl-between justify-content-lg-between
@@ -13,8 +13,18 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>Név</th>
-        <th>CreatedAt</th>
+        <th (click)="setOrder('Name')" class="clickable">
+          Név
+          <i class="fa fa-arrow-up" *ngIf="config.orderBy === 'Name' && config.order === 'Asc'"></i>
+          <i class="fa fa-arrow-down" *ngIf="config.orderBy === 'Name' && config.order === 'Desc'"></i>
+        </th>
+
+        <th (click)="setOrder('CreatedAt')" class="clickable">
+          CreatedAt
+          <i class="fa fa-arrow-up" *ngIf="config.orderBy === 'CreatedAt' && config.order === 'Asc'"></i>
+          <i class="fa fa-arrow-down" *ngIf="config.orderBy === 'CreatedAt' && config.order === 'Desc'"></i>
+        </th>
+
         <th class="text-center">Törlés</th>
       </tr>
     </thead>
@@ -29,6 +39,41 @@
       </tr>
     </tbody>
   </table>
+
+  <div class="bottom-bar">
+    <div class="bottom-bar-content">
+
+      <span class="first">
+        <span class="items-per-page-label">Items per page:</span>
+
+        <select class="form-select" #itemsPerPage (change)="onChangePageSize(itemsPerPage.value)">
+          <option value="5" [selected]="config.limit.getValue() === 5">5</option>
+          <option value="10" [selected]="config.limit.getValue() === 10">10</option>
+          <option value="25" [selected]="config.limit.getValue() === 25">25</option>
+          <option value="50" [selected]="config.limit.getValue() === 50">50</option>
+        </select>
+      </span>
+
+      <div class="second">
+        <span class="page-numbers-label">{{ config.pageIndex.getValue() + 1 }} - {{ config.pageIndex.getValue() + 1 }} of {{
+          config.totalNumberOfPages.getValue() }}</span>
+
+        <span>
+          <i class="fa fa-chevron-left left-btn" (click)="jumpToThePrevPage()" *ngIf="config.pageIndex.getValue()"></i>
+          <i class="fa fa-chevron-left left-btn text-secondary" *ngIf="!config.pageIndex.getValue()"></i>
+
+          <i class="fa fa-chevron-right right-btn" (click)="jumpToTheNextPage()"
+            *ngIf="config.pageIndex.getValue() + 1 < config.totalNumberOfPages.getValue() "></i>
+          <i class="fa fa-chevron-right right-btn text-secondary"
+            *ngIf="config.pageIndex.getValue() + 1 === config.totalNumberOfPages.getValue()"></i>
+        </span>
+
+      </div>
+
+    </div>
+  </div>
+
+
 </div>
 
 <div class="wrapper" *ngIf="loading">
