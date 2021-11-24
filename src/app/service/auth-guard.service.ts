@@ -12,11 +12,14 @@ export class AuthGuardService implements CanActivate {
     public router: Router,
   ) { }
 
+  // Check login status of the user
   async canActivate(): Promise<boolean> {
+    // If user doesn't logged in
     if (!this.auth.currentUserValue.userName && !await this.auth.getLocalStorageData()) {
       this.router.navigateByUrl('login');
       return false;
     }
+    // If user logged in
     return true;
   }
 }

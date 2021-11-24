@@ -23,6 +23,7 @@ export class UserService {
     this.userList$.next(resultObject);
   }
 
+  // Get all user
   getAll(): Observable<{ results: User[], resultsLength: number; }> {
     return this.http.get<{ results: User[], resultsLength: number; }>(
       `${this.config.allUsersUrl}?PageIndex=${this.config.pageIndex.getValue()}

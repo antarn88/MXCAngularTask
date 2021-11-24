@@ -1,6 +1,9 @@
+<!-- Main container -->
 <div class="wrapper mb-5 p-3" *ngIf="(userList$ | async)!.resultsLength > 0 && !loading">
 
   <div class="row">
+
+    <!-- Top bar -->
     <div class="col-12 d-flex justify-content-xxl-between justify-content-xl-between justify-content-lg-between
        justify-content-md-around justify-content-sm-around justify-content-center align-content-center flex-wrap my-4 top-bar">
       <h2 class="text-uppercase mb-3"><i class="fa fa-user-o"></i> Munkatársak</h2>
@@ -10,6 +13,7 @@
     </div>
   </div>
 
+  <!-- User table -->
   <table class="table table-hover">
     <thead>
       <tr>
@@ -40,6 +44,7 @@
     </tbody>
   </table>
 
+  <!-- Bottom bar -->
   <div class="bottom-bar">
     <div class="bottom-bar-content">
 
@@ -67,15 +72,14 @@
           <i class="fa fa-chevron-right right-btn text-secondary"
             *ngIf="config.pageIndex.getValue() + 1 === config.totalNumberOfPages.getValue()"></i>
         </span>
-
       </div>
 
     </div>
   </div>
 
-
 </div>
 
+<!-- Loading screen -->
 <div class="wrapper" *ngIf="loading">
   <div class="d-flex justify-content-center loading">
     <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
@@ -83,4 +87,5 @@
   <p class="text-center mt-3">Munkatársak betöltése...</p>
 </div>
 
+<!-- Hidden modal -->
 <app-modal (confirmedClick)="deleteUser($event)"></app-modal>

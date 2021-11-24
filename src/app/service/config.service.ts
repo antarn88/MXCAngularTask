@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ConfigService {
 
+  // Server addresses and general settings
   apiUrl = 'http://dev-isf-ticketing-app.azurewebsites.net';
   allUsersUrl = `${this.apiUrl}/api/v1/admin/user/`;
   loginUrl = `${this.apiUrl}/api/v1/identity/token`;
@@ -23,6 +24,7 @@ export class ConfigService {
   orderBy = 'Name';
   firstSorting = true;
 
+  // Some methods for pagings
   calculateTotalNumberOfPages(): void {
     this.totalNumberOfPages.next(Math.ceil(this.userListLength.getValue() / this.limit.getValue()));
   }

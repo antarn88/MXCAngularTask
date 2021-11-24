@@ -27,12 +27,14 @@ export class UserEditorComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private router: Router,
-    private toastr: ToastrService,
+    private toastr: ToastrService, // Toaster
   ) { }
 
   async ngOnInit(): Promise<void> {
+    // Get userID from query params
     const { userId } = this.activatedRoute.snapshot.params;
 
+    // When form-editor loads with user data
     if (userId !== '0') {
       try {
         this.user = await lastValueFrom(this.userService.getOne(userId));
@@ -57,6 +59,7 @@ export class UserEditorComponent implements OnInit {
     }
 
     try {
+      // When the user will be created
       if (this.user.id === '0') {
         this.user = userForm.value;
         await lastValueFrom(this.userService.create(this.user));
@@ -64,7 +67,7 @@ export class UserEditorComponent implements OnInit {
         this.updating = false;
         this.toastr.success('A munkatárs sikeresen létrejött!', 'Siker!');
         console.log('User has been created!');
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl(''); // Navigate to home page
         return true;
       }
     } catch (err: any) {
@@ -77,6 +80,7 @@ export class UserEditorComponent implements OnInit {
     }
 
     try {
+      // When the user will be updated
       if (this.user.id !== '0') {
         const userId = this.user.id;
 
@@ -91,7 +95,7 @@ export class UserEditorComponent implements OnInit {
         this.updating = false;
         this.toastr.success('A munkatárs sikeresen frissült!', 'Siker!');
         console.log('Updating user was successful!');
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl(''); // Navigate to home page
         return true;
       }
     } catch (err) {

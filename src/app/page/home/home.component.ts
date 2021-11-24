@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public userService: UserService,
-    private toastr: ToastrService,
+    private toastr: ToastrService, // Toaster
     public config: ConfigService,
   ) { }
 
@@ -36,9 +36,12 @@ export class HomeComponent implements OnInit {
   }
 
   async deleteUser(confirmedDelete: boolean): Promise<void> {
+    // If it has confirmed by modal
     if (confirmedDelete) {
       try {
+        // Delete request to server
         await lastValueFrom(this.userService.delete(this.currentUser.id || ''));
+
         await this.userService.loadLatestUserList();
         this.config.calculateTotalNumberOfPages();
         this.toastr.success('Sikeresen törölte a munkatársat!', 'Siker!');
@@ -49,11 +52,12 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-
+  // Set current user for delete
   setCurrentUser(user: User): void {
     this.currentUser = user;
   }
 
+  // Set settings for ordering
   async setOrder(columnName: string): Promise<void> {
     if (this.config.firstSorting) {
       this.config.order = 'Desc';
@@ -67,6 +71,7 @@ export class HomeComponent implements OnInit {
     await this.userService.loadLatestUserList();
   }
 
+  // When the page size has changed
   async onChangePageSize(value: string): Promise<void> {
     this.config.limit.next(parseInt(value, 10));
     this.config.pageIndex.next(0);
@@ -77,6 +82,7 @@ export class HomeComponent implements OnInit {
     this.loading = false;
   }
 
+  // Jump to the next page event
   async jumpToTheNextPage(): Promise<void> {
     this.config.setNextPage();
     this.loading = true;
@@ -85,6 +91,7 @@ export class HomeComponent implements OnInit {
     console.log('Jumping to the next page was successful.');
   }
 
+  // Jump to the prev page event
   async jumpToThePrevPage(): Promise<void> {
     this.config.setPrevPage();
     this.loading = true;

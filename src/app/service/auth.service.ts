@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,6 +13,7 @@ import { ConfigService } from './config.service';
 export class AuthService {
 
   currentUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+
   loginResponse:
     { access_token: string; token_type: string, expires_in: number; } = { access_token: '', token_type: '', expires_in: 0 };
 
@@ -20,6 +23,7 @@ export class AuthService {
     private config: ConfigService,
   ) { }
 
+  // Read localStorage data
   async getLocalStorageData(): Promise<boolean> {
     if (localStorage[this.config.storageName]) {
       this.loginResponse = JSON.parse(localStorage[this.config.storageName]);
@@ -34,8 +38,10 @@ export class AuthService {
     return this.currentUserSubject$.value;
   }
 
+  // Login method
   async login(loginData: { userName: string, password: string; }): Promise<boolean> {
     try {
+      // Login request to server
       const response = await lastValueFrom(
         this.http.post<{ access_token: string; token_type: string, expires_in: number; }>(this.config.loginUrl, loginData),
       );
@@ -59,13 +65,16 @@ export class AuthService {
     }
   }
 
+  // Logout method
   async logout(): Promise<void> {
     try {
 
+      // Logout request to server
       await lastValueFrom(
         this.http.post<''>(this.config.logoutUrl, {}, { headers: { 'X-OrganisationId': this.config.organisationId } }),
       );
 
+      // Set default values for logging and navigate to login page
       localStorage.removeItem(this.config.storageName);
       this.currentUserSubject$.next(new User());
       this.router.navigateByUrl('login');
@@ -75,6 +84,7 @@ export class AuthService {
     }
   }
 
+  // Load logged user data for header
   async getUserMe(accessToken: string): Promise<User> {
     return lastValueFrom(this.http.get<User>(this.config.userMeUrl, { headers: { Authorization: `Bearer ${accessToken}` } }));
   }

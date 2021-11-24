@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/service/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   hasError = false;
   logging = false;
@@ -16,17 +16,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
-  ngOnInit(): void {
-  }
-
+  // When the user has clicked to the login button
   async onSubmit(loginForm: NgForm): Promise<void> {
     this.logging = true;
     if (!await this.authService.login(loginForm.value)) {
       this.hasError = true;
       this.logging = false;
-    } else {
-      this.logging = false;
-    }
+    } else this.logging = false;
   }
 
 }

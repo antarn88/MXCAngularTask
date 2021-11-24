@@ -17,6 +17,7 @@ export class JwtInterceptorService {
     const currentUser = this.auth.currentUserValue;
 
     if (currentUser.userName) {
+      // When the user has logged in, all headers of requests will modified with 2 items:
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${this.auth.loginResponse.access_token}`,
