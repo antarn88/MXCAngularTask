@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { User } from 'src/app/model/user';
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       await this.userService.loadLatestUserList();
+      console.log('Userlist has been loaded.');
       this.loading = false;
       this.config.calculateTotalNumberOfPages();
     } catch (err) {
@@ -52,19 +54,24 @@ export class HomeComponent implements OnInit {
     this.currentUser = user;
   }
 
-  setOrder(columnName: string): void {
+  async setOrder(columnName: string): Promise<void> {
     if (this.config.firstSorting) {
       this.config.order = 'Desc';
       this.config.firstSorting = false;
-    } else this.config.order = this.config.order === 'Asc' ? 'Desc' : 'Asc';
+      console.log(`Sorting by ${columnName} in ${this.config.order} order.`);
+    } else {
+      this.config.order = this.config.order === 'Asc' ? 'Desc' : 'Asc';
+      console.log(`Sorting by ${columnName} in ${this.config.order} order.`);
+    }
     this.config.orderBy = columnName;
-    this.userService.loadLatestUserList();
+    await this.userService.loadLatestUserList();
   }
 
   async onChangePageSize(value: string): Promise<void> {
     this.config.limit.next(parseInt(value, 10));
     this.config.pageIndex.next(0);
     this.config.calculateTotalNumberOfPages();
+    console.log('Page size has changed.');
     this.loading = true;
     await this.userService.loadLatestUserList();
     this.loading = false;
@@ -75,7 +82,7 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     await this.userService.loadLatestUserList();
     this.loading = false;
-
+    console.log('Jumping to the next page was successful.');
   }
 
   async jumpToThePrevPage(): Promise<void> {
@@ -83,6 +90,7 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     await this.userService.loadLatestUserList();
     this.loading = false;
+    console.log('Jumping to the prev page was successful.');
   }
 
 }
